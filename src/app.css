@@ -1,0 +1,7 @@
+.banknotes-information {
+  display: flex;
+}
+
+.banknotes-information__item:not(:first-of-type) {
+  margin-left: 20px;
+}

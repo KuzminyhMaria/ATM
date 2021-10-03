@@ -1,0 +1,18 @@
+.button {
+  height: 50px;
+  padding: 10px 20px;
+  background: #e8e8e8;
+  border: none;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+.button:hover {
+  background: #dcdcdc;
+  cursor: pointer;
+}
+
+.button.disabled {
+  background: #e8e8e8;
+  cursor: default;
+}
