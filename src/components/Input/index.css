@@ -1,0 +1,25 @@
+.input {
+  position: relative;
+  padding-bottom: 16px;
+  width: 260px;
+}
+
+.input.error {
+  padding-bottom: 32px;
+}
+
+.input__item {
+  margin-bottom: 5px;
+  height: 50px;
+  width: 100%;
+  padding: 10px 20px;
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+.input__errorMessage {
+  position: absolute;
+  color: #920505;
+}
