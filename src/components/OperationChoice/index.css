@@ -1,0 +1,7 @@
+.operation-choice {
+  display: flex;
+}
+
+.operation-choice button:last-of-type {
+  margin-left: 20px;
+}

@@ -1,34 +1,66 @@
-import { FC, Dispatch, SetStateAction, useState } from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 
+import WithdrawOperation from './WithdrawOperation';
+import DepositOperation from './DepositOperation';
 import Button from '../Button/Button';
-import Input from '../Input/Input';
+
+import { BanknoteInformation } from '../../interface';
 
 import './index.css';
 
-interface OperationProps {
-  handleOperation: (
-    amount: number,
-    setErrorMessage: Dispatch<SetStateAction<string>>,
-    errorMessage: string
-  ) => void;
+export enum Operations {
+  WITHDRAW = 'withdraw',
+  DEPOSITE = 'deposit',
 }
 
-const ERROR_MESSAGE = 'Операция не может быть выполнена';
+export const ERROR_MESSAGE = 'Операция не может быть выполнена';
 
-const Operation: FC<OperationProps> = ({handleOperation}) => {
-  const [amount, setAmount] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+interface OperationProps {
+  operation: Operations;
+  handleNumberOperation?: (
+    amount: number,
+    setErrorMessage: Dispatch<SetStateAction<string>>,
+  ) => void;
+  handleArrayOperation?: (
+    value: BanknoteInformation[],
+    setErrorMessage: Dispatch<SetStateAction<string>>,
+  ) => void;
+  handleChangeOperation: () => void;
+}
+
+const Operation: FC<OperationProps> = ({
+  operation,
+  handleNumberOperation,
+  handleArrayOperation,
+  handleChangeOperation,
+}) => {
+  const handlePickTitle = () => {
+    switch (operation) {
+      case Operations.WITHDRAW:
+        return 'Снятие';
+      case Operations.DEPOSITE:
+        return 'Внесение';
+    }
+  };
+
+  const returnOperation = () => {
+    switch (operation) {
+      case Operations.WITHDRAW:
+        if (handleNumberOperation)
+          return <WithdrawOperation handleOperation={handleNumberOperation} />;
+        else break;
+      case Operations.DEPOSITE:
+        if (handleArrayOperation)
+          return <DepositOperation handleOperation={handleArrayOperation} />;
+    }
+  };
 
   return (
     <div className="operation">
-      <h2>Снятие наличных</h2>
-        <div className="operation__item">
-        <Input value={amount} setValue={setAmount} errorMessage={errorMessage} />
-        <Button
-          title="Снять"
-          onClick={() => handleOperation(+amount, setErrorMessage, ERROR_MESSAGE)}
-          isDisabled={!amount}
-        />
+      <h2>{handlePickTitle()} наличных</h2>  
+      <div className="operation__item">
+        {returnOperation()}
+        <Button title="Изменить операцию" onClick={handleChangeOperation}  />
       </div>
     </div>
   )

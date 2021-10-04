@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { makeAutoObservable } from 'mobx';
 
 import { BanknoteInformation } from '../interface';
+import { ERROR_MESSAGE } from '../components/Operation/Operation';
 
 class ATM {
   cassets = [
@@ -43,16 +44,16 @@ class ATM {
     return newTotal;
   }
 
-  withdraw(value: number, setError: Dispatch<SetStateAction<string>>, errorMessage: string) {
+  withdraw(value: number, setError: Dispatch<SetStateAction<string>>) {
     // Проверка возможности проведения операции
     if (value % 100 !== 0) {
-      setError(errorMessage);
+      setError(ERROR_MESSAGE);
       return;
     }
 
     // Проверка наличия нужной суммы в банкомате
     if (this.calculateTotal < value) {
-      setError(errorMessage);
+      setError(ERROR_MESSAGE);
       return;
     }
 
@@ -60,7 +61,7 @@ class ATM {
     const banknotesForWithdrawal = this.banknotesCountingForWithdrawal(value);
 
     if (!banknotesForWithdrawal) {
-      setError(errorMessage);
+      setError(ERROR_MESSAGE);
       return;
     }
 
@@ -73,6 +74,13 @@ class ATM {
     })
 
     return banknotesForWithdrawal;
+  }
+
+  deposit(value: BanknoteInformation[]) {
+    value.forEach(item => {
+      const index = this.cassets.findIndex(el => el.banknote === item.banknote);
+      this.cassets[index].count += item.count;
+    })
   }
 
   // Подсчёт нужного кол-ва банкнот для выдачи
