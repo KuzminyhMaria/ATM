@@ -1,3 +1,21 @@
 .operation__item {
   display: flex;
 }
+
+.operation__item button:last-of-type {
+  margin-left: 20px;
+}
+
+.operation__input-box_deposit {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.operation__input-box_deposit div {
+  margin-right: 10px;
+}
+
+.operation__input {
+  width: 100px;
+}

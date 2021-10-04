@@ -34,6 +34,10 @@ class Wallet {
     this.sortingBanknotes();
   }
 
+  decrease() {
+    
+  }
+
   // Сортировка по убыванию номинала банкнот
   private sortingBanknotes = () => {
     this.wallet.sort((prev: BanknoteInformation, next: BanknoteInformation): number => {

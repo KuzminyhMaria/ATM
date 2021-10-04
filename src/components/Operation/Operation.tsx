@@ -1,34 +1,57 @@
-import { FC, Dispatch, SetStateAction, useState } from 'react';
+import { FC, Dispatch, SetStateAction } from 'react';
 
+import WithdrawOperation from './WithdrawOperation';
+import DepositOperation from './DepositOperation';
 import Button from '../Button/Button';
-import Input from '../Input/Input';
 
 import './index.css';
 
+export enum Operations {
+  WITHDRAW = 'withdraw',
+  DEPOSITE = 'deposit',
+}
+
+export const ERROR_MESSAGE = 'Операция не может быть выполнена';
+
 interface OperationProps {
+  operation: Operations;
   handleOperation: (
     amount: number,
     setErrorMessage: Dispatch<SetStateAction<string>>,
     errorMessage: string
   ) => void;
+  handleChangeOperation: () => void;
 }
 
-const ERROR_MESSAGE = 'Операция не может быть выполнена';
+const Operation: FC<OperationProps> = ({
+  operation,
+  handleOperation,
+  handleChangeOperation,
+}) => {
+  const handlePickTitle = () => {
+    switch (operation) {
+      case Operations.WITHDRAW:
+        return 'Снятие';
+      case Operations.DEPOSITE:
+        return 'Внесение';
+    }
+  };
 
-const Operation: FC<OperationProps> = ({handleOperation}) => {
-  const [amount, setAmount] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const returnOperation = () => {
+    switch (operation) {
+      case Operations.WITHDRAW:
+        return <WithdrawOperation handleOperation={handleOperation} />;
+      case Operations.DEPOSITE:
+        return <DepositOperation />;
+    }
+  };
 
   return (
     <div className="operation">
-      <h2>Снятие наличных</h2>
-        <div className="operation__item">
-        <Input value={amount} setValue={setAmount} errorMessage={errorMessage} />
-        <Button
-          title="Снять"
-          onClick={() => handleOperation(+amount, setErrorMessage, ERROR_MESSAGE)}
-          isDisabled={!amount}
-        />
+      <h2>{handlePickTitle()} наличных</h2>  
+      <div className="operation__item">
+        {returnOperation()}
+        <Button title="Изменить операцию" onClick={handleChangeOperation}  />
       </div>
     </div>
   )
