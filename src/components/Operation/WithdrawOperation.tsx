@@ -3,15 +3,12 @@ import { FC, Dispatch, SetStateAction, useState } from 'react';
 import Button from '../Button/Button';
 import Input from '../Input/Input';
 
-import { ERROR_MESSAGE } from './Operation';
-
 import './index.css';
 
 interface WithdrawOperationProps {
   handleOperation: (
     amount: number,
     setErrorMessage: Dispatch<SetStateAction<string>>,
-    errorMessage: string
   ) => void;
 }
 
@@ -34,7 +31,7 @@ const WithdrawOperation: FC<WithdrawOperationProps> = ({
       </div>
       <Button
         title="Снять"
-        onClick={() => handleOperation(+amount, setErrorMessage, ERROR_MESSAGE)}
+        onClick={() => handleOperation(+amount, setErrorMessage)}
         isDisabled={!amount}
       />
     </>

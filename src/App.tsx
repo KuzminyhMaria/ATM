@@ -8,23 +8,29 @@ import wallet from './store/wallet';
 
 import { Operations } from './components/Operation/Operation';
 
+import { BanknoteInformation } from './interface';
+
 import './app.css';
 
 const App: FC = observer(() => {
-  const [currentOperation, setCurrentOperation] = useState<Operations | null>(Operations.DEPOSITE);
+  const [currentOperation, setCurrentOperation] = useState<Operations | null>(null);
 
   const handleWithdrawOperation = (
-    value: number, setError: Dispatch<SetStateAction<string>>, errorMessage: string
+    value: number,
+    setError: Dispatch<SetStateAction<string>>,
   ) => {
-    const banknotes = atm.withdraw(value, setError, errorMessage) || [];
+    const banknotes = atm.withdraw(value, setError) || [];
     if (!banknotes.length) return;
     wallet.increase(banknotes);
   };
 
   const handleDepositOperation = (
-    value: number, setError: Dispatch<SetStateAction<string>>, errorMessage: string
+    value: BanknoteInformation[],
+    setError: Dispatch<SetStateAction<string>>,
   ) => {
-    
+    const isCorrect = wallet.decrease(value, setError);
+    if (!isCorrect) return;
+    atm.deposit(value);
   };
 
   const handleChangeOperation = () => {
@@ -38,14 +44,14 @@ const App: FC = observer(() => {
           {currentOperation === Operations.WITHDRAW &&
             <Operation
               operation={currentOperation}
-              handleOperation={handleWithdrawOperation}
+              handleNumberOperation={handleWithdrawOperation}
               handleChangeOperation={handleChangeOperation}
             />
           }
           {currentOperation === Operations.DEPOSITE &&
             <Operation
               operation={currentOperation}
-              handleOperation={handleDepositOperation}
+              handleArrayOperation={handleDepositOperation}
               handleChangeOperation={handleChangeOperation}
             />
           }

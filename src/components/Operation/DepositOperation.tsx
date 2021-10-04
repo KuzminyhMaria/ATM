@@ -6,15 +6,16 @@ import Input from '../Input/Input';
 import atm from '../../store/atm';
 import { BanknoteInformation } from '../../interface';
 
-import { ERROR_MESSAGE } from './Operation';
-
 import './index.css';
 
 interface DepositOperationProps {
-
+  handleOperation: (
+    value: BanknoteInformation[],
+    setErrorMessage: Dispatch<SetStateAction<string>>,
+  ) => void;
 }
 
-const DepositOperation: FC<DepositOperationProps> = () => {
+const DepositOperation: FC<DepositOperationProps> = ({ handleOperation }) => {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const [banknotesCount, setBanknotesCount] = useState<BanknoteInformation[]>(atm.cassets.map(item => (
@@ -31,13 +32,13 @@ const DepositOperation: FC<DepositOperationProps> = () => {
     ]);
   };
 
-  const handleOperation = (setErrorMessage: Dispatch<SetStateAction<string>>, errorMessageText: string) => {
+  const handleOperationOnClick = (setErrorMessage: Dispatch<SetStateAction<string>>) => {
     const banknotesForDeposit: BanknoteInformation[] = [];
     banknotesCount.forEach(item => {
       if (item.count) banknotesForDeposit.push(item);
     });
 
-    console.log(banknotesForDeposit)
+    handleOperation(banknotesForDeposit, setErrorMessage);
   };
 
   return (
@@ -54,17 +55,17 @@ const DepositOperation: FC<DepositOperationProps> = () => {
                   minValue={0}
                   type="number"
                   placeholder="Введите кол-во"
-                  errorMessage={errorMessage}
                   styleClassName="operation__input"
                   handleOnChange={handleChangeBanknotes}
                 />
               </div>
             );
           })}
+          <div className="operation__error-text">{errorMessage}</div>
         </div>
         <Button
           title="Внести"
-          onClick={() => handleOperation(setErrorMessage, ERROR_MESSAGE)}
+          onClick={() => handleOperationOnClick(setErrorMessage)}
         />
       </div>
     </>

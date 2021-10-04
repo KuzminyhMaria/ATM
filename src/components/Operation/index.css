@@ -19,3 +19,14 @@
 .operation__input {
   width: 100px;
 }
+
+.operation__inputs_deposit {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.operation__error-text {
+  position: absolute;
+  width: 250px;
+  color: #920505;
+}

@@ -4,6 +4,8 @@ import WithdrawOperation from './WithdrawOperation';
 import DepositOperation from './DepositOperation';
 import Button from '../Button/Button';
 
+import { BanknoteInformation } from '../../interface';
+
 import './index.css';
 
 export enum Operations {
@@ -15,17 +17,21 @@ export const ERROR_MESSAGE = 'Операция не может быть выпо
 
 interface OperationProps {
   operation: Operations;
-  handleOperation: (
+  handleNumberOperation?: (
     amount: number,
     setErrorMessage: Dispatch<SetStateAction<string>>,
-    errorMessage: string
+  ) => void;
+  handleArrayOperation?: (
+    value: BanknoteInformation[],
+    setErrorMessage: Dispatch<SetStateAction<string>>,
   ) => void;
   handleChangeOperation: () => void;
 }
 
 const Operation: FC<OperationProps> = ({
   operation,
-  handleOperation,
+  handleNumberOperation,
+  handleArrayOperation,
   handleChangeOperation,
 }) => {
   const handlePickTitle = () => {
@@ -40,9 +46,12 @@ const Operation: FC<OperationProps> = ({
   const returnOperation = () => {
     switch (operation) {
       case Operations.WITHDRAW:
-        return <WithdrawOperation handleOperation={handleOperation} />;
+        if (handleNumberOperation)
+          return <WithdrawOperation handleOperation={handleNumberOperation} />;
+        else break;
       case Operations.DEPOSITE:
-        return <DepositOperation />;
+        if (handleArrayOperation)
+          return <DepositOperation handleOperation={handleArrayOperation} />;
     }
   };
 
