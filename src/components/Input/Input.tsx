@@ -6,12 +6,12 @@ interface InputProps {
   value: number | string;
   minValue?: number;
   setValue?: Dispatch<SetStateAction<string>>;
-  type: string;
+  type?: string;
   name?: string;
   placeholder?: string;
   errorMessage?: string;
   styleClassName?: string;
-  handleOnChange?: (newValue: number, e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleOnChange?: (newValue: string, e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: FC<InputProps> = ({
@@ -38,8 +38,11 @@ const Input: FC<InputProps> = ({
         }
         break;
       case 'number':
-        handleOnChange && handleOnChange(+newValue, e);
+        handleOnChange && handleOnChange(newValue, e);
         break;
+      default:
+        setValue && setValue(newValue);
+        handleOnChange && handleOnChange(newValue, e);
     }
   };
 
@@ -60,6 +63,15 @@ const Input: FC<InputProps> = ({
           type={type}
           min={minValue}
           name={name || ''}
+          placeholder={placeholder || ''}
+          value={value}
+          onChange={handleChangeValue}
+        />
+      }
+      {type === 'text' &&
+        <input
+          className="input__item"
+          type={type}
           placeholder={placeholder || ''}
           value={value}
           onChange={handleChangeValue}

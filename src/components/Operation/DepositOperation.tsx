@@ -22,12 +22,12 @@ const DepositOperation: FC<DepositOperationProps> = ({ handleOperation }) => {
     {banknote: item.banknote, count: 0}
   )));
 
-  const handleChangeBanknotes = (newValue: number, e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeBanknotes = (newValue: string, e: React.ChangeEvent<HTMLInputElement>) => {
     const banknote = +e?.target.name;
     const index = banknotesCount.findIndex(item => item.banknote === banknote);
     setBanknotesCount([
       ...banknotesCount.slice(0, index),
-      {banknote, count: newValue },
+      {banknote, count: +newValue },
       ...banknotesCount.slice(index + 1),
     ]);
   };

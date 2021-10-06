@@ -1,0 +1,7 @@
+.authorization__input-wrapper {
+  display: flex;
+}
+
+.authorization__error-text {
+  color: #920505;
+}
