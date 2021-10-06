@@ -83,6 +83,16 @@ class ATM {
     })
   }
 
+
+  // Возвращает подсчитанную сумму
+  returnAmount(value: BanknoteInformation[]) {
+    let amount = 0;
+    value.forEach(item => {
+      amount += item.banknote * item.count;
+    });
+    return amount;
+  }
+
   // Подсчёт нужного кол-ва банкнот для выдачи
   private banknotesCountingForWithdrawal = (value: number) => {
     let remainingValue = value;
