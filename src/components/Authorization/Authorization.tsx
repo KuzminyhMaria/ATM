@@ -42,7 +42,7 @@ const Authorization: FC<AuthorizationProps> = ({
       <h2>Авторизация</h2>
       <div className="authorization__input-wrapper">
         <Input
-          type="text"
+          type="password"
           value={pin}
           handleOnChange={handleChangePincode}
           placeholder="Введите пинкод"

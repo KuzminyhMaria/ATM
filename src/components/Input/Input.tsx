@@ -31,33 +31,17 @@ const Input: FC<InputProps> = ({
 
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    switch(type) {
-      case 'money':
-        if (+newValue > 0 || (newValue === '0' && newValue.length > 1) || newValue === '') {
-          setValue && setValue(newValue);
-        }
-        break;
-      case 'number':
-        handleOnChange && handleOnChange(newValue, e);
-        break;
-      default:
-        setValue && setValue(newValue);
-        handleOnChange && handleOnChange(newValue, e);
+    if (type === 'money') {
+      if ((newValue && /\D/g.test(newValue)) || (newValue === '0' && newValue.length === 1)) return;
     }
+
+    setValue && setValue(newValue);
+    handleOnChange && handleOnChange(newValue, e);
   };
 
   return (
     <div className={classNames.join(' ')}>
-      {type === 'money' &&
-      <input
-        className="input__item"
-        type={type}
-        placeholder={placeholder || ''}
-        value={value}
-        onChange={handleChangeValue}
-      />
-      }
-      {type === 'number' &&
+      {type === 'number' ?
         <input
           className="input__item"
           type={type}
@@ -67,8 +51,7 @@ const Input: FC<InputProps> = ({
           value={value}
           onChange={handleChangeValue}
         />
-      }
-      {type === 'text' &&
+        :
         <input
           className="input__item"
           type={type}
